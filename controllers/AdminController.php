@@ -98,6 +98,11 @@ class AdminController
       $temppassword = $user->resetPassword();
       $successmessage = "Password for $username reset to '$temppassword'.";
     }
+	
+	 if (isset($_POST['resendemail'])) {
+      $temppassword = $user->resendEmail();
+      $successmessage = "Password for $username reset to '$temppassword'.";
+    }
     
     if (isset($_POST['update'])) {
       $user->displayname = $_POST["displayname"];

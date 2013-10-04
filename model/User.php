@@ -143,7 +143,25 @@ class User implements Persistable
     $curl = new Curl;
     
     $url = $conf['api_protocol'] . "://$user:$password@".$conf['api_url'] ."/users/" . $this->username . "/resetpassword";
-    $response = $curl->post($url, $vars = array());
+    $response = $curl->post($url, json_encode($ft = false)));
+    
+    if ($response->headers['Status'] != "200 OK") {
+      return false;
+    } else {
+      $temp = json_decode($response, true);
+      return $temp['password'];
+    }
+  }
+  
+  public function resendEmail() {
+    global $conf;
+    
+    $user = $_SESSION['username'];
+    $password = $_SESSION['password'];
+    $curl = new Curl;
+    
+    $url = $conf['api_protocol'] . "://$user:$password@".$conf['api_url'] ."/users/" . $this->username . "/resetpassword";
+    $response = $curl->post($url, json_encode($ft = true));
     
     if ($response->headers['Status'] != "200 OK") {
       return false;
