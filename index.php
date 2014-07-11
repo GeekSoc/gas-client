@@ -39,6 +39,13 @@
     LoginController::handleRegister($twig);
   });
   
+  $app->post('/requestbox', function() use ($app, $twig){
+	RequestsController::handleRequest($app,$twig);
+  });
+  $app->get('/requestbox', function() use ($app, $twig){
+	RequestsController::displayRequest($app,$twig);
+  });
+  
   $app->get('/dashboard', function() use ($app, $twig) {
     DashboardController::displayDetails($app, $twig);
   });

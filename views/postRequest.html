@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Request dev box{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="span6 offset3" style="text-align: center">
+          <!-- <h1 style="font-size:40px;">Join GeekSoc</h1> -->
+          <form class="form-horizontal well" id="form" action="/register" method="post">
+            <fieldset>
+              <legend>Request received</legend>
+                  <br />
+                  <p>Your request for a dev box was received.</p>
+                  <!-- <p><a href="/" class="btn btn-primary">Login &rarr;</a></p> -->
+            </fieldset>
+          </form>
+        </div>
+{% endblock %}

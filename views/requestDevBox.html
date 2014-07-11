@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Request dev box{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="span6 offset3" style="text-align: center">
+          <!-- <h1 style="font-size:40px;">Join GeekSoc</h1> -->
+          <form class="form-horizontal well" id="form" action="/requestbox" method="post">
+            <fieldset>
+              <legend>Request a dev box</legend>
+                {% if error %}
+                    <div class="alert alert-error">
+                      <strong>Error:</strong> {{ error }}
+                    </div>
+                {% endif %}
+				  <div class="">
+						<br />
+						<p>I wish to request a dev box / VM. </p>
+				  </div>
+				  <div class="control-group">
+					<label class="control-label" for="username">Account Name:</label>
+					<div class="controls">
+						<span class="input-xlarge uneditable-input">{{ currentuser.username }}</span>
+					</div>
+				  </div>
+                  <div class="control-group">
+                    <label class="control-label" for="email">Reason</label>
+                    <div class="controls">
+                    <textarea type="text" class="input-xlarge required reason" name="reason" id="reason" ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="">
+                      <br />
+                      <p>By submitting this form you agree to abide by the <a href="http://geeksoc.org/wp-content/uploads/2011/12/tos.pdf">Terms of Service</a> and any additions that may be needed when using the dev box.</p>
+                     <a href="/" class="btn">Cancel</a>
+                    <button type="submit" name="request" class="btn btn-primary">Request</button>
+                  </div>
+            </fieldset>
+          </form>
+        </div>
+
+{% endblock %}
