@@ -177,7 +177,7 @@ class User implements Persistable
     global $conf;
     
     if (self::get($this->username) == null) {
-      //create new user (POST)    
+      //create new user (POST)
       $details = get_object_vars($this);
       
       $user = $_SESSION['username'];
@@ -190,6 +190,17 @@ class User implements Persistable
       if ($response->headers['Status'] != "200 OK") {
         return false;
       } else {
+
+	/* There is a bug in the API's use of computeExpiry. The
+	 * subroutine itself works and is passing unit tests but
+	 * somewhere in the user creation process the expiry date is
+	 * getting decremented by one day. So call renewMembership
+	 * here to compensate for that until the bug is fixed.
+	 */
+	// TODO: Fix the API's createUser computeExpiry bug
+	
+	$this->renewMembership();
+
         return true;
       }
     } else {
@@ -212,10 +223,36 @@ class User implements Persistable
     }
   }
   
+  public function renewMembership() {
+    $this->expiry = $this->computeExpiry();
+    $this->paid = "TRUE";
+    return $this->save();
+  }
+  
   public function isAdmin() {
     return $this->isAdmin;
   }
 
+  // Maybe this could be done in the API
+  public function computeExpiry() {
+    $now = time();
+    $thisYear = date("Y", $now);
+    $nextYear = $thisYear + 1;
+
+    $newYearsDay = mktime(0, 0, 0, 1, 1, $thisYear);
+    $hogmanay = mktime(0, 0, 0, 12, 31, $thisYear);
+    $threshold = strtotime("last Friday of May $thisYear");
+    
+    $nextExpiryString = 'first Friday of October';
+    
+    if ($now >= $newYearsDay and $now < $threshold) {
+      $nextExpiryString .= " $thisYear";
+    } else {
+      $nextExpiryString .= " $nextYear";
+    }
+    
+    return $nextExpiryString;
+  }
   
 }
 
