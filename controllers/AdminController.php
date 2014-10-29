@@ -98,6 +98,12 @@ class AdminController
       $temppassword = $user->resetPassword();
       $successmessage = "Password for $username reset to '$temppassword'.";
     }
+
+    if (isset($_POST['renewmembership'])) {
+      $user->renewMembership();
+      $nextExpiry = date("Y-m-d", strtotime($user->expiry));
+      $successmessage = "Membership renewed until $nextExpiry.";
+    }
     
     if (isset($_POST['update'])) {
       $user->displayname = $_POST["displayname"];

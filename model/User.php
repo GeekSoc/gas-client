@@ -212,10 +212,32 @@ class User implements Persistable
     }
   }
   
+  public function renewMembership() {
+    $this->expiry = $this->computeExpiry();
+    return $this->save();
+  }
+  
   public function isAdmin() {
     return $this->isAdmin;
   }
 
+  // Maybe this could be done in the API
+  public function computeExpiry() {
+    $now = time();
+    $nextYear = date("Y") + 1;
+
+    $nextExpiryString = 'first Friday of October';
+    $thresholdString = 'last Friday of May';
+	
+    $nextExpiry = strtotime($nextExpiryString, $now);
+    $threshold = strtotime($thresholdString, $now);
+      
+    if ($now < $threshold) {
+      return $nextExpiryString;
+    } else {
+      return "$nextExpiryString $nextYear";
+    }     
+  }
   
 }
 

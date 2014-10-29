@@ -72,6 +72,14 @@
                           <span class="input-xlarge uneditable-input">{{ user.status }}</span>
                       </div>
                 </div>
+		{{ user.status == 'Expired' or user.status == 'Expiring' ? "
+		  <div class=\"control-group\">
+                    <label class=\"control-label\"><!--Renew--></label>
+                    <div class=\"controls\">
+                      <button name=\"renewmembership\" type=\"submit\" class=\"btn btn-small btn-success\" >Renew Membership</button>
+                    </div>
+		  </div>
+		": null }}
                 <div class="control-group">
                   <label class="control-label">Expiry</label>
                   <div class="controls">
